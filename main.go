@@ -3,34 +3,21 @@ package main
 import (
 	"fmt"
 	"os"
-	"regexp"
+	shift_time "saphieron/shift_time/shift_time_lib"
 )
 
 func main() {
 	fmt.Println("running shift_calc")
-	argsWithoutProgrammeName := os.Args[1:]
-	startTime := getStartTimeFromArgs(argsWithoutProgrammeName)
 
-	fmt.Printf("startTime %v\n", startTime)
-
-	// referenceTimeLayout := "15:04:05"
-	// timeObj, _ := time.Parse(referenceTimeLayout, "08:10:00")
-	// startTime := os.Args[1]
-
-	// timePattern := "hh:mm"
-
-	// stringResult := fmt.Sprintf("StartTime: %v", startTime)
-	// fmt.Printf("input time %v\n", timeObj)
-	// fmt.Println(stringResult)
+	startTime := os.Args[1]
+	// if len(os.Args) > 2 {
+	//TODO: Create some parsing logic
+	// }
+	run(startTime)
 }
 
-func getStartTimeFromArgs(progArgs []string) string {
-	startTime := progArgs[0]
-	timePattern := "(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]"
-	isMatched, _ := regexp.MatchString(timePattern, startTime)
-	if !isMatched {
-		fmt.Println("Error: start time format is HH:MM")
-		os.Exit(1)
-	}
-	return startTime
+func run(startTime string) {
+	conditions := shift_time.NewWorkConditions()
+	fmt.Println(startTime)
+	fmt.Printf("Shift ends at: %v\n", conditions.ShiftEndTime(startTime))
 }
